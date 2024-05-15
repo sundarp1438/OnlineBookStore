@@ -1,0 +1,15 @@
+FROM redhat/ubi8
+MAINTAINER sundarp1@yahoo.com
+RUN yum install java-11* wget -y
+RUN java --version
+RUN cd /opt
+RUN wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+RUN tar -xvf apache-maven-3.6.3-bin.tar.gz
+RUN mv apache-maven-3.6.3-bin.tar.gz maven
+RUN rm -rf apache-maven-3.6.3-bin.tar.gz
+# Set environment variables
+ENV MAVEN_HOME /opt/maven
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk
+ENV PATH ${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}
+WORKDIR cd /opt/maven/bin
+CMD ["mvn", "--version"]
